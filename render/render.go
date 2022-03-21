@@ -26,11 +26,16 @@ func Render(notebook Notebook) string {
 		var source string
 		var outputs string
 
+		var textColour string
+
 		if cell.CellType == "code" {
 			source += "\x1B[38;2;249;38;114m[" + strconv.Itoa(cell.ExecutionCount) + "]\x1B[0m "
+			textColour = "\033[97m"
+		} else {
+			textColour = "\033[36m"
 		}
 		for _, s := range cell.Source {
-			source += s
+			source += textColour + s + "\033[0m"
 		}
 
 		source = indent.String(source, 4)
