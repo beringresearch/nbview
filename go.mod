@@ -3,7 +3,6 @@ module github.com/beringresearch/nbview
 go 1.18
 
 require (
-	github.com/alecthomas/chroma v0.10.0
 	github.com/charmbracelet/bubbles v0.10.3
 	github.com/charmbracelet/bubbletea v0.20.0
 	github.com/charmbracelet/lipgloss v0.5.0
@@ -11,7 +10,6 @@ require (
 
 require (
 	github.com/containerd/console v1.0.3 // indirect
-	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
