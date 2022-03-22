@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/beringresearch/nbview)](https://goreportcard.com/report/github.com/beringresearch/nbview)
+
 ## NBVIEW
 
 `nbview` is a lightweight utility for viewing Jupyter Notebook files in your terminal.
