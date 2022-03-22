@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -112,8 +111,8 @@ func max(a, b int) int {
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println(errors.New("nbview expects FILENAME argument."))
-		os.Exit(1)
+		fmt.Println("view Jupyter Notebooks in your terminal\n\n Usage:\n  nbview FILENAME")
+		os.Exit(0)
 	}
 
 	fileName := os.Args[1]
