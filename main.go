@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -110,10 +111,16 @@ func max(a, b int) int {
 }
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Println(errors.New("nbview expects FILENAME argument."))
+		os.Exit(1)
+	}
+
 	fileName := os.Args[1]
 	jsonFile, err := os.Open(fileName)
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
