@@ -28,3 +28,12 @@ darwin:
 	@GOOS=darwin go build -ldflags=$(GO_LDFLAGS) -o bin/darwin/$(BINARY_NAME) *.go
 	cp VERSION bin/darwin
 	@echo "finished"
+
+windows:
+	@echo "Building ..."
+	go clean
+	go get
+	rm -f bin/windows/$(BINARY_NAME)
+	@GOOS=windows go build -ldflags=$(GO_LDFLAGS) -o bin/windows/$(BINARY_NAME) *.go
+	cp VERSION bin/windows
+	@echo "finished"
