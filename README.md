@@ -8,11 +8,13 @@
 
 ## Installation
 
-To build from source:
+The simplest way to install `nbview` is to [download the binary for your platform](https://github.com/beringresearch/nbview/releases). Rename the binary to `nbview` and add it to your `$PATH`, for example by copying it to `usr/local/bin`.
+
+### Build from source
 
 `make PLATFORM`
 
-where `PLATFORM` is either `ubuntu`, `linux`, `darwin`, or `windows`. The executable will appear in `bin/PLATFORM/nbview` and from there it can be added to you`$PATH` variable.
+where `PLATFORM` is either `ubuntu`, `linux`, `darwin`, or `windows`. The executable will appear in `bin/PLATFORM/nbview` and from there it can be added to your `$PATH` variable.
 
 ## Usage
 
