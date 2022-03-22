@@ -7,10 +7,12 @@ import (
 	"github.com/muesli/reflow/wordwrap"
 )
 
+// Notebook contains Jupyter Notebook definitions
 type Notebook struct {
 	Cells []Cell `json:"cells"`
 }
 
+// Cell is the basic building block of a Notebook structure
 type Cell struct {
 	CellType       string   `json:"cell_type"`
 	ExecutionCount int      `json:"execution_count"`
@@ -18,6 +20,7 @@ type Cell struct {
 	Outputs        []string `json:"outputs"`
 }
 
+// Render accepts a Notebook struct and returns a rendered string
 func Render(notebook Notebook) string {
 
 	var output string
