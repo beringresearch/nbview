@@ -25,7 +25,13 @@ type Cell struct {
 	CellType       string   `json:"cell_type"`
 	ExecutionCount int      `json:"execution_count"`
 	Source         []string `json:"source"`
-	Outputs        []string `json:"outputs"`
+	Outputs        []Output `json:"outputs"`
+}
+
+type Output struct {
+	Name       string   `json:"name"`
+	OutputType string   `json:"output_type"`
+	Text       []string `json:"text"`
 }
 
 // Render accepts a Notebook struct and returns a rendered string
@@ -66,7 +72,9 @@ func Render(notebook Notebook) string {
 		}
 
 		for _, o := range cell.Outputs {
-			outputs += o
+			for _, t := range o.Text {
+				outputs += t
+			}
 		}
 
 		output += source + "\n"
