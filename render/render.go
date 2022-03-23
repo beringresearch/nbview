@@ -1,8 +1,15 @@
 package render
 
 import (
+	"bytes"
+	"fmt"
+	"os"
 	"strconv"
 
+	chroma "github.com/alecthomas/chroma/v2"
+	"github.com/alecthomas/chroma/v2/formatters"
+	"github.com/alecthomas/chroma/v2/lexers"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/muesli/reflow/indent"
 	"github.com/muesli/reflow/wordwrap"
 )
@@ -29,16 +36,27 @@ func Render(notebook Notebook) string {
 		var source string
 		var outputs string
 
-		var textColour string
+		lexer := lexers.Get("python")
+		lexer = chroma.Coalesce(lexer)
+		style := styles.Get("dracula")
+		formatter := formatters.Get("terminal256")
+
+		for _, s := range cell.Source {
+			source += s
+		}
 
 		if cell.CellType == "code" {
-			source += "\x1B[38;2;249;38;114m[" + strconv.Itoa(cell.ExecutionCount) + "]\x1B[0m "
-			textColour = "\033[97m"
-		} else {
-			textColour = "\033[36m"
-		}
-		for _, s := range cell.Source {
-			source += textColour + s + "\033[0m"
+			iterator, err := lexer.Tokenise(nil, source)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			buf := new(bytes.Buffer)
+			err = formatter.Format(buf, style, iterator)
+			source = buf.String()
+
+			source = "\x1B[38;2;249;38;114m[" + strconv.Itoa(cell.ExecutionCount) + "]\x1B[0m " + source
 		}
 
 		source = indent.String(source, 4)
