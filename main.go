@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -116,6 +117,9 @@ func loadNotebookFromUrl(url string) (render.Notebook, error) {
 	var byteValue []byte
 
 	response, err := http.Get(url)
+	if err != nil {
+		return notebook, err
+	}
 
 	if response.StatusCode == http.StatusOK {
 		buf := new(bytes.Buffer)
@@ -123,7 +127,11 @@ func loadNotebookFromUrl(url string) (render.Notebook, error) {
 		byteValue = buf.Bytes()
 	}
 
-	json.Unmarshal(byteValue, &notebook)
+	if len(byteValue) == 0 {
+		err = errors.New("unable to read from URL")
+	} else {
+		json.Unmarshal(byteValue, &notebook)
+	}
 
 	return notebook, err
 }
