@@ -8,6 +8,7 @@ require (
 	github.com/charmbracelet/bubbletea v0.20.0
 	github.com/charmbracelet/lipgloss v0.5.0
 	github.com/muesli/reflow v0.3.0
+	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064
 )
 
 require (
