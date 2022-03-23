@@ -12,6 +12,7 @@ import (
 	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/muesli/reflow/indent"
 	"github.com/muesli/reflow/wordwrap"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 // Notebook contains Jupyter Notebook definitions
@@ -29,6 +30,11 @@ type Cell struct {
 
 // Render accepts a Notebook struct and returns a rendered string
 func Render(notebook Notebook) string {
+	terminalWidth, _, err := terminal.GetSize(int(os.Stdin.Fd()))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	var output string
 
@@ -59,8 +65,6 @@ func Render(notebook Notebook) string {
 			source = "\x1B[38;2;249;38;114m[" + strconv.Itoa(cell.ExecutionCount) + "]\x1B[0m " + source
 		}
 
-		source = indent.String(source, 4)
-
 		for _, o := range cell.Outputs {
 			outputs += o
 		}
@@ -69,7 +73,7 @@ func Render(notebook Notebook) string {
 		output += "\t" + outputs + "\n"
 	}
 
-	output = wordwrap.String(output, 100)
+	output = indent.String(wordwrap.String(output, terminalWidth-50), 4)
 	return output
 
 }
