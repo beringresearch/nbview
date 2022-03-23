@@ -27,4 +27,4 @@ where `PLATFORM` is either `ubuntu`, `linux`, `darwin`, or `windows`. The execut
 
 `nbview FILENAME`
 
-`nbview` loads a Jupyter Notebook into a scrollable buffer, which can be navigated using arrow keys. To exit, press `q` or `esc`.
+`FILENAME` can be either a local or a remote notebook file. The Notebook is loaded into a scrollable buffer, which can be navigated using arrow keys. To exit, press `q` or `esc`.
