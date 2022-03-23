@@ -8,8 +8,8 @@
 
 ## Features
 
-- [x] Cross-platform. Compiles to a multi-platform executable
-- [x] No dependencies. `nbview` binary is self contained
+- [x] Cross-platform. Compiles to a multi-platform executable.
+- [x] No dependencies. `nbview` binary is self contained.
 - [x] No need for a Notebook server. `*.ipynb` files are rendered as text in a terminal buffer.
 - [x] Fully-fledged Python syntax highlighting based on Pygments.
 
