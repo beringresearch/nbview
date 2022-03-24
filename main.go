@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
 
@@ -109,24 +112,63 @@ func max(a, b int) int {
 	return b
 }
 
+func loadNotebookFromUrl(url string) (render.Notebook, error) {
+	var notebook render.Notebook
+	var byteValue []byte
+
+	response, err := http.Get(url)
+	if err != nil {
+		return notebook, err
+	}
+
+	if response.StatusCode == http.StatusOK {
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(response.Body)
+		byteValue = buf.Bytes()
+	}
+
+	if len(byteValue) == 0 {
+		err = errors.New("unable to read from URL")
+	} else {
+		json.Unmarshal(byteValue, &notebook)
+	}
+
+	return notebook, err
+}
+
+func loadNotebookFromFile(fileName string) (render.Notebook, error) {
+	var notebook render.Notebook
+	jsonFile, err := os.Open(fileName)
+
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	json.Unmarshal(byteValue, &notebook)
+
+	return notebook, err
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("view Jupyter Notebooks in your terminal\n\n Usage:\n  nbview FILENAME")
 		os.Exit(0)
 	}
-
-	fileName := os.Args[1]
-	jsonFile, err := os.Open(fileName)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
 	var notebook render.Notebook
+	fileName := os.Args[1]
 
-	json.Unmarshal(byteValue, &notebook)
+	if _, err := os.Stat(fileName); err == nil {
+		notebook, err = loadNotebookFromFile(fileName)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	} else {
+		notebook, err = loadNotebookFromUrl(fileName)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
 
 	content := render.Render(notebook)
 
