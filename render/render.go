@@ -60,7 +60,7 @@ func Render(notebook Notebook) string {
 
 			if cell.CellType == "markdown" {
 				if strings.HasPrefix(s, "#") {
-					s = "\n\u001b[34m" + s + "\n" + line + "\x1B[0m " + "\n"
+					s = "\n\u001b[34m" + s + "\n" + line + "\x1B[0m "
 				}
 
 			}
